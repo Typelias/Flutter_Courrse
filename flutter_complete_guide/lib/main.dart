@@ -1,54 +1,84 @@
 import 'package:flutter/material.dart';
 
+import './quiz.dart';
+import './result.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
-  var questionIndex = 0;
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+  var _totalscore = 0;
 
-  void answerQuestion() {
+  final _questions = const [
+    {
+      'qustionText': 'What\'s your favourite color?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 6},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1}
+      ]
+    },
+    {
+      'qustionText': 'What\'s your favourite animal?',
+      'answers': [
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9}
+      ]
+    },
+    {
+      'qustionText': 'Who\'s yout favoirte instructor?',
+      'answers': [
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1}
+      ]
+    },
+  ];
+
+  void _answerQuestion(int score) {
+    _totalscore += score;
+
     setState(() {
-      questionIndex++;
+      _questionIndex++;
     });
+    print(_questionIndex);
+  }
 
-    print('Answer Chosen!');
-    print(questionIndex);
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalscore = 0;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = ['What\'s your favourite color?', 'What\'s your favourite animal?'];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Text(questions[questionIndex]),
-            RaisedButton(
-              child: Text('Answer 1'),
-              onPressed: answerQuestion,
-            ),
-            RaisedButton(
-              child: Text('Answer 2'),
-              onPressed: () => print('Hello'),
-            ),
-            RaisedButton(
-              child: Text('Answer 3'),
-              onPressed: () => {
-                //...
-                print("Greger")
-              },
-            ),
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questions: _questions,
+                questionIndex: _questionIndex,
+              )
+            : Result(
+                _totalscore,
+                _resetQuiz,
+              ),
       ),
     );
   }
