@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:expences/widgets/adaptive_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +6,40 @@ import 'package:intl/intl.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  NewTransaction(this.addTx);
+  NewTransaction(this.addTx) {
+    print('Constructor NewTransaction Widget');
+  }
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState() {
+    print('createState NewTransaction Widget');
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
+  _NewTransactionState() {
+    print('constructor NewTransactionState');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print('initState NewTransactionState');
+  }
+
+  @override
+  void didUpdateWidget(covariant NewTransaction oldWidget) {
+    print('didUpdateWidget NewTransactionState');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    print('dispose NewTransactionState');
+    super.dispose();
+  }
+
   final _titleController = TextEditingController();
 
   final _amountController = TextEditingController();
